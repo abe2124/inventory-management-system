@@ -34,9 +34,20 @@
                             <td scope="col">{!! $purchases->status !!}</td>
                             <td>
                                 <a href="" class="btn btn-secondary ml-auto">View</a>
+                                @if(auth()->user()->role != '2' && auth()->user()->role != '0' )
                                 <a href="" type="button" class="btn btn-info ml-auto">Edit</a>
-                                <a href="" type="button" class="btn btn-danger ml-auto">Delete</a>
-                            </td>
+                                    <a href="{{ route('purchases.destroy', ['id' => $purchases->id]) }}"
+                                        onclick="event.preventDefault(); document.getElementById('delete-purchases-form-{{ $purchases->id }}').submit();"
+                                        class="btn btn-danger ml-auto">Delete</a>
+                                    <form id="delete-purchases-form-{{ $purchases->id }}"
+                                        action="{{ route('purchases.destroy', ['id' => $purchases->id]) }}"
+                                        method="POST" style="display: none;">
+                                        @csrf
+                                        @method('DELETE')
+                                    </form>
+                                @endif
+
+                                    </td>
                         </tr>
                     @endforeach
                 </tbody>

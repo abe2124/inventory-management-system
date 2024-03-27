@@ -36,12 +36,13 @@
                             <td scope="col">{!! $order->order_status !!}</td>
                             <td>
                                 <a href="{{ route('order.show', $order->id) }}" class="btn btn-secondary ml-auto">View</a>
-                                <a href="{{ route('order.edit', $order->id) }}" class="btn btn-info ml-auto">Edit</a>
-                                <form action="{{ route('order.destroy', $order->id) }}" method="POST" style="display: inline-block;">
+                                @if(auth()->user()->role != '2' && auth()->user()->role != '0' )
+                                <a href="" type="button" class="btn btn-info ml-auto">Edit</a>                                <form action="{{ route('order.destroy', $order->id) }}" method="POST" style="display: inline-block;">
                                     @csrf
                                     @method('DELETE')
                                     <button type="submit" class="btn btn-danger ml-auto" onclick="return confirm('Are you sure you want to delete this order?')">Delete</button>
                                 </form>
+                                @endif
                             </td>
                         </tr>
                     @endforeach

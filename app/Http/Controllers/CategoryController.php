@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Category;
+use Illuminate\Database\QueryException;
+use Illuminate\Support\Facades\Session;
+
 
 class CategoryController extends Controller
 {
@@ -62,8 +65,21 @@ class CategoryController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(string $id)
+    public function destroy($id)
     {
-        //
+        try {
+            $category = Category::findOrFail($id);
+            $category->delete();
+            Session::flash('success', 'Category deleted successfully');
+        } catch (QueryException $e) {
+            // Check if the exception is due to a foreign key constraint violation
+            if ($e->errorInfo[1] === 1451) {
+                Session::flash('error', 'Cannot delete category. It is referenced by existing orders.');
+            } else {
+                Session::flash('error', 'An error occurred while deleting the category.');
+            }
+        }
+
+        return redirect()->route('c');
     }
 }

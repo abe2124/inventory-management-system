@@ -7,6 +7,8 @@ use App\Models\Purchase;
 use App\Models\Stock;
 use App\Models\Item;
 use App\Models\Category;
+use Illuminate\Support\Facades\Session;
+
 
 
 class PurchaseController extends Controller
@@ -97,7 +99,13 @@ public function getBuyingPrice($itemId)
         return response()->json(['error' => 'Item not found'], 404);
     }
 }
-
+public function destroy($id)
+    {
+        $Purchase = Purchase::findOrFail($id);
+        $Purchase->delete();
+        Session::flash('success', 'purchases deleted successfully');
+        return redirect()->route('purchase');
+    }
 
 
 

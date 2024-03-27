@@ -31,16 +31,17 @@ Route::get('/nurse', function () {
 Auth::routes();
 
 // Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
-Route::get('/items', [App\Http\Controllers\ItemController::class, 'index'])->name('item');
-Route::get('/create/items', [App\Http\Controllers\ItemController::class, 'create'])->name('item.create');
-Route::post('items',  [App\Http\Controllers\ItemController::class, 'store'])->name('item.store');
+Route::get('/items', [App\Http\Controllers\ItemController::class, 'index'])->name('item')->middleware('admin');
+Route::get('/create/items', [App\Http\Controllers\ItemController::class, 'create'])->name('item.create')->middleware('admin');
+Route::post('items',  [App\Http\Controllers\ItemController::class, 'store'])->name('item.store')->middleware('admin');
 
 // Define PUT route for updating an existing wards
-Route::put('items/{item}', [App\Http\Controllers\ItemController::class, 'create'])->name('item.update');
+Route::put('items/{item}', [App\Http\Controllers\ItemController::class, 'create'])->name('item.update')->middleware('admin');
 
-Route::get('/categories', [App\Http\Controllers\CategoryController::class, 'index'])->name('c');
-Route::get('/create/categories', [App\Http\Controllers\CategoryController::class, 'create'])->name('categories.create');
-Route::post('categories',  [App\Http\Controllers\CategoryController::class, 'store'])->name('categories.store');
+Route::get('/categories', [App\Http\Controllers\CategoryController::class, 'index'])->name('c')->middleware('admin');
+Route::get('/create/categories', [App\Http\Controllers\CategoryController::class, 'create'])->name('categories.create')->middleware('admin');
+Route::post('categories',  [App\Http\Controllers\CategoryController::class, 'store'])->name('categories.store')->middleware('admin');
+Route::delete('/categories/{id}', [App\Http\Controllers\CategoryController::class, 'destroy'])->name('categories.destroy')->middleware('admin');
 
 
 
@@ -51,6 +52,7 @@ Route::get('/get-items', [App\Http\Controllers\PurchaseController::class, 'getIt
 Route::get('/get-item-price/{id}', [App\Http\Controllers\PurchaseController::class, 'getItemPrice']);
 Route::get('/get-selling-price/{itemId}',  [App\Http\Controllers\PurchaseController::class, 'getSellingPrice'])->name('get-selling-price');
 Route::get('/get-buying_price/{itemId}',  [App\Http\Controllers\PurchaseController::class, 'getBuyingPrice'])->name('get-buying_price');
+Route::delete('/purchases/{id}', [App\Http\Controllers\PurchaseController::class, 'destroy'])->name('purchases.destroy')->middleware('admin');
 
 
 
@@ -58,11 +60,12 @@ Route::get('/get-buying_price/{itemId}',  [App\Http\Controllers\PurchaseControll
 Route::get('/orders', [App\Http\Controllers\OrderController::class, 'index'])->name('order.index');
 Route::get('/orders/create', [App\Http\Controllers\OrderController::class, 'create'])->name('order.create');
 Route::post('orders',  [App\Http\Controllers\OrderController::class, 'store'])->name('orders.store');
-Route::delete('/orders/{id}', [App\Http\Controllers\OrderController::class, 'destroy'])->name('order.destroy');
+Route::delete('/orders/{id}', [App\Http\Controllers\OrderController::class, 'destroy'])->name('order.destroy')->middleware('admin');
 Route::get('/orders/{id}', [App\Http\Controllers\OrderController::class, 'show'])->name('order.show');
 Route::get('/orders/{id}/edit', [App\Http\Controllers\OrderController::class, 'edit'])->name('order.edit');
 Route::put('/orders/{id}', [App\Http\Controllers\OrderController::class, 'update'])->name('orders.update');
 
+
 Route::get('/stock', [App\Http\Controllers\StockController::class, 'index'])->name('stock.index');
-Route::delete('/stocks/{id}', [App\Http\Controllers\StockController::class, 'destroy'])->name('stock.destroy');
+Route::delete('/stocks/{id}', [App\Http\Controllers\StockController::class, 'destroy'])->name('stock.destroy')->middleware('admin');
 
