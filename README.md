@@ -12,7 +12,7 @@ Frontend: HTML, CSS, JavaScript, Bootstrap
 Backend: PHP, Laravel
 Database: MySQL
 Installation
-Clone the repository: git clone https://github.com/yourusername/inventory-management-system.git
+Clone the repository: git clone https://github.com/abe2124/inventory-management-system.git
 Install dependencies: composer install
 Copy .env.example to .env and configure your environment variables
 Generate application key: php artisan key:generate
